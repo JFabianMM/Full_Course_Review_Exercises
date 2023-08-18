@@ -1,21 +1,3 @@
-// // **************************** //
-// // Exercise 09
-// // **************************** //
-
-// 9. Implement an array flattening function with recursive 
-//    and iterative versions. Do not use the built-in function.
-
-
-// const input = [1,2,3,[4,5,[6,[[7]],8]],[9,10]]
-// function flattenArray(input){
-//    /* Your implementation goes here */
-// }
-// flattenArray(input);
-
-/**
-* expected output:
-* [1,2,3,4,5,6,7,8,9,10]
-*/
 
 // THIS IS THE RECURSIVE VERSION
 const flattenRecursive = (nested) => {
@@ -37,8 +19,6 @@ const flattenRecursive = (nested) => {
   }
 
 
-
-  
 // THIS IS THE ITERATIVE VERSION
 function getValue(array, positionMap){
   let value=array;
@@ -78,10 +58,5 @@ const flattenIterative = function(array){
     return flat;
 }
 
-//let array= [1,2,3,[4,5,[6,7]], 8,9];
-let array= [1,2,3,[4,5,[6,[[7]],8]],[9,10]];
-console.log(flattenRecursive(array));
-//console.log(flattenIterative(array));
-
-
 module.exports = flattenIterative
+module.exports = flattenRecursive

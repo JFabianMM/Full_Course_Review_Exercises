@@ -1,53 +1,145 @@
-const myTaskFactory = require('./exercise01.js')
+class Pool {
+  constructor(concurrency) {
+      this.tasks = [];
+      this.concurrency = concurrency;
+  }
+  addTask(task) {
+      this.tasks.push(task)
+  }
+  async _executeTasks(iterator) {
+      const results = [];
+      for (let [_, task] of iterator) {
+          try {
+              const res = await task.run();
+              try {
+                  if (task.isSuccessful(res)) {
+                      await task.onSuccess(res);
+                      results.push(res);
+                  } else {
+                      await task.onError(res);
+                  }
+              } catch (e) {
+                  await task.onError(res);
+              }
+          } catch (e) {
+              task.onError(e);
+          }
+      }
+      return results;
+  }
+  async run() {
+      const iterator = this.tasks.entries();
+      const tasksWorkers = new Array(this.concurrency).fill(iterator).map(this._executeTasks);
+      const res = await Promise.allSettled(tasksWorkers);
+      const flattenedArrays = [];
+      res.forEach((subArray) => {
+          if (subArray.value) {
+              subArray.value.forEach(elt => flattenedArrays.push(elt))
+          }
+      })
+      this.tasks = [];
+      return flattenedArrays;
+  }
+}
 
-const tasks1 = [200];
-const pool_size1 = 1;
+function taskFactorySample(ms, solved, val){
+    let ar=[ms,solved,val];
+     return ar
+}
 
-test('The timeout is lower than 400 ms ', () => {
-    return myTaskFactory(tasks1, pool_size1).then(finalresult => {
-          expect(finalresult).toMatchObject([{ value: 200 }]);
-        });
+const taskFactory = (ms, solved, val) =>
+  new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      try {
+           if (solved){
+            resolve(val)
+           }else{
+            throw new Error(val);
+           }
+      } catch (error) {
+        reject(val)
+      }
+    }, ms)
+  })
+  
+
+async function runTasks(tasks, pool_size){
+    try{
+        const max_tasks = tasks.length;
+    const p = new Pool(pool_size);
+    let finalResult= new Array(max_tasks).fill(0);
+
+    for (let i = 0; i < max_tasks; i++) {
+        p.addTask({
+            async run() {
+                let argum= tasks[i];
+                let a= await taskFactory(argum[0], argum[1], argum[2]);
+                return a;
+            },
+            async onSuccess(res) {
+                let val={
+                    velue:res
+                }
+                finalResult[i]=val;
+            },
+            async onError(err) {
+                let val={
+                    velue:err
+                }
+                finalResult[i]=val;
+            }
+        })
+    }
+
+    await p.run();
+    return finalResult;
+    }catch(error) {
+    }
+    
+};
+
+const tasks = [
+   taskFactorySample(2000,true, 1),
+   taskFactorySample(1000,true, 2),
+   taskFactorySample(2000,true, 'error'),
+   taskFactorySample(2000,true, 4),
+   taskFactorySample(1000,false, 'error'),
+   taskFactorySample(2000,false, 'error'),
+ ];
+const pool_size1 = 2;
+
+test('The runTasks (tasks, pool_size1) with pool_size1=2. Its expected [{velue:1},{velue:2},{velue:"error"},{velue:4},{velue:"error"},{velue:"error"}]', (done) => {
+  runTasks(tasks, pool_size1)
+   .then(result=>expect(result).toMatchObject([
+        { velue: 1 },
+        { velue: 2 },
+        { velue: 'error' },
+        { velue: 4 },
+        { velue: 'error' },
+        { velue: 'error' }
+      ]));
+      done()
 });
 
-const tasks2 = [450];
+const tasks2 = [
+  taskFactorySample(2000,true, 2),
+  taskFactorySample(2000,true, 5),
+  taskFactorySample(2000,true, 'error'),
+  taskFactorySample(2000,true, 1),
+  taskFactorySample(2000,false, 'error'),
+  taskFactorySample(2000,false, 'error'),
+];
 const pool_size2 = 1;
 
-test('The timeout is lower than 400 ms', () => {
-    return myTaskFactory(tasks2, pool_size2).then(finalresult => {
-          expect(finalresult).toMatchObject([ { reason: 'ms > 400!!' } ]);
-        });
-});
-
-const tasks3 = [600, 600, 200, 750, 350, 900, 300];
-const pool_size3 = 1;
-
-test('The array contain timeouts higher and lower than 400 ms', () => {
-    return myTaskFactory(tasks3, pool_size3).then(finalresult => {
-          expect(finalresult).toMatchObject([
-            { reason: 'ms > 400!!' },
-            { reason: 'ms > 400!!' },
-            { value: 200 },
-            { reason: 'ms > 400!!' },
-            { value: 350 },
-            { reason: 'ms > 400!!' },
-            { value: 300 }
-          ]);
-        });
-});
-
-const tasks4 = [600, 600, 200, 750, 350, 900, 300];
-const pool_size4 = 3;
-
-test('The array contain timeouts higher and lower than 400 ms with pool_size higher then 1', () => {
-    return myTaskFactory(tasks4, pool_size4).then(finalresult => {
-          expect(finalresult).toMatchObject([
-            { reason: 'ms > 400!!' },
-            { reason: 'ms > 400!!' },
-            { value: 200 },
-            { reason: 'ms > 400!!' },
-            { value: 350 },
-            { reason: 'ms > 400!!' },
-            { value: 300 }
-          ]);
-        });
+test('The runTasks (tasks2, pool_size2) with pool_size2=1. Its expected [{velue:2},{velue:5},{velue:"error"},{velue:1},{velue:"error"},{velue:"error"}]', (done) => {
+ runTasks(tasks2, pool_size2)
+  .then(result=>expect(result).toMatchObject([
+       { velue: 2 },
+       { velue: 5 },
+       { velue: 'error' },
+       { velue: 1 },
+       { velue: 'error' },
+       { velue: 'error' }
+     ]));
+     done()
 });

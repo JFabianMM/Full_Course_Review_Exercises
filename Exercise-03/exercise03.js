@@ -1,50 +1,23 @@
-// // **************************** //
-// // Exercise 03
-// // **************************** //
+require('isomorphic-fetch');
+let controller;
 
-// 3. Create a cancellable fetch request.
-
-// const result = cancellableFetch("some/url");
-// result.then(someAction).then(otherAction).catch(errorHandler);
-
-/* ... more code ... */
-
-//if(someCondition){
-//  result.cancel()
-//}
-
-/* ... more code ... */
-
-let fetchMock = require('fetch-mock');
-let controller = new AbortController();
-
-let can=function cancellableFetch(url) {
-    fetchMock.get(url, {                // Mock the fetch()                 
-        users: [
-            { name: "Fabián" },
-            { name: "Jesús" }
-            ]
-    }, {
-      delay: 3000,                      // fake a slow network
-    });
-  
+function cancellableFetch(url) {
+    controller = new AbortController();
     return fetch(url, {   
         signal: controller.signal,                   
-    }).then(function(response) {
-        let data = response.json();
-        if (data.name === 'AbortError'){
-                  return 'AbortError';
-              }else{
-                  return data;
-              }
+    }).then(function(data) {
+        return data.statusText;
     }).catch(error => {
-      return 'AbortError';
+        return error.name;
     });
   };
 
-can.cancel=function(){ 
-      controller.abort();
+const url='https://hub.dummyapis.com/delay?seconds=3';
+let result = cancellableFetch(url);
+result.cancel=function(){ 
+        controller.abort();
 };
 
-setTimeout(() => controller.abort(), 1500);   
-module.exports = can
+setTimeout(() => result.cancel(), 2000); 
+
+module.exports = cancellableFetch

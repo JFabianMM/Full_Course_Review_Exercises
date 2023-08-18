@@ -1,78 +1,104 @@
-// // **************************** //
-// // Exercise 1
-// // **************************** //
-
-// // 1. Create a pool of N running tasks from an M sized list. 
-// //    Notify when all tasks are done.
-
-// const taskFactorySample = (delay, resolve, val) =>
-// () => new Promise((res, rej)=>setTimeout(resolve?res:rej,delay, val))
-
-// const tasks = [
-//    taskFactorySample(500,true, 1),
-//    taskFactorySample(1000,true, 2),
-//    taskFactorySample(5000,false, 'error'),
-//    taskFactorySample(2000,true, 4),
-//    taskFactorySample(1000,false, 'error'),
-//    taskFactorySample(1000,false, 'error'),
-// ];
-
-// // only run two promises at a time
-// const pool_size = 2;
-
-// /**
-// *  Expect to get an array equal to tasks.length
-// *  with the values or reasons for each of the promises.
-// *
-// *  [{value: 1}, {value:2}, {error: 'error'}, ...]
-// */
-
-// runTasks(tasks, pool_size).then(console.log);
-
-
-async function asyncProcessing (arr) {
-  let len=arr.length;  
-  let res=[0];
-  for (let i=0; i<len; i++){
-      let ms=arr[i]; 
-      res[i] = new Promise((resolve, reject)=>{
-          setTimeout(function(){
-              if(ms<400){
-                resolve(ms);
-              }else{
-                reject('ms > 400!!');
+class Pool {
+  constructor(concurrency) {
+      this.tasks = [];
+      this.concurrency = concurrency;
+  }
+  addTask(task) {
+      this.tasks.push(task)
+  }
+  async _executeTasks(iterator) {
+      const results = [];
+      for (let [_, task] of iterator) {
+          try {
+              const res = await task.run();
+              try {
+                  if (task.isSuccessful(res)) {
+                      await task.onSuccess(res);
+                      results.push(res);
+                  } else {
+                      await task.onError(res);
+                  }
+              } catch (e) {
+                  await task.onError(res);
               }
-          }, ms);    
-      })  
-  }
-  let result = Promise.allSettled(res);
-  return result
-};
-
-async function myTaskFactory(tasks, pool_size=1) {  
-  const len = tasks.length;
-  let result=[];
-  let finalresult=[];
-  let range=Math.floor(len/pool_size);
-  if (len%pool_size>0){range++;}
-  for (let i=0; i<range; i++) {
-      let array= tasks.slice(i*pool_size,(i*pool_size)+pool_size);
-      try{
-          result.push(await asyncProcessing(array));
-      } catch(err) {
-          result.push(err);
+          } catch (e) {
+              task.onError(e);
+          }
       }
+      return results;
   }
-  for (let i=0; i<range; i++){
-      let len=result[i].length;
-      for (let ii=0; ii<len; ii++){
-          let value=result[i][ii];
-          delete value.status;
-          finalresult.push(value);
-      }
+  async run() {
+      const iterator = this.tasks.entries();
+      const tasksWorkers = new Array(this.concurrency).fill(iterator).map(this._executeTasks);
+      const res = await Promise.allSettled(tasksWorkers);
+      const flattenedArrays = [];
+      res.forEach((subArray) => {
+          if (subArray.value) {
+              subArray.value.forEach(elt => flattenedArrays.push(elt))
+          }
+      })
+      this.tasks = [];
+      return flattenedArrays;
   }
-  console.log(finalresult);
-  return finalresult
 }
 
-module.exports = myTaskFactory
+function taskFactorySample(ms, solved, val){
+    let ar=[ms,solved,val];
+     return ar
+}
+
+const taskFactory = (ms, solved, val) =>
+  new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      try {
+           if (solved){
+            resolve(val)
+           }else{
+            throw new Error(val);
+           }
+      } catch (error) {
+        reject(val)
+      }
+    }, ms)
+  })
+  
+
+async function runTasks(tasks, pool_size){
+    try{
+        const max_tasks = tasks.length;
+    const p = new Pool(pool_size);
+    let finalResult= new Array(max_tasks).fill(0);
+
+    for (let i = 0; i < max_tasks; i++) {
+        p.addTask({
+            async run() {
+                let argum= tasks[i];
+                let a= await taskFactory(argum[0], argum[1], argum[2]);
+                return a;
+            },
+            async onSuccess(res) {
+                let val={
+                    velue:res
+                }
+                finalResult[i]=val;
+            },
+            async onError(err) {
+                let val={
+                    velue:err
+                }
+                finalResult[i]=val;
+            }
+        })
+    }
+
+    await p.run();
+    return finalResult;
+    }catch(error) {
+    }
+    
+};
+
+module.exports = runTasks
+module.exports = taskFactorySample
+module.exports = taskFactory
+

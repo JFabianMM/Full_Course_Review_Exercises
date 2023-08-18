@@ -1,14 +1,5 @@
-// // **************************** //
-// // Exercise 04
-// // **************************** //
-
-// 4. Merge two sorted arrays where one has enough 
-//    space at the end for the other (A6)
-
-function mergeArrays(lArray, sArray){
-    const smallArray = sArray;
+function mergeArrays(largeArray, smallArray){
     const smallArraySize = smallArray.length;
-    const largeArray = lArray.concat(new Array(smallArraySize));
     const largeArraySize = largeArray.length;
     let smallIndexPos=smallArraySize-1;
     let largeIndexPos=largeArraySize-smallArraySize-1;

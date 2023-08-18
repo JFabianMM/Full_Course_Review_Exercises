@@ -1,13 +1,31 @@
 const mergeArrays = require('./exercise04.js')
 
-// const largeArray = [1,3,5,7,9]
-// const smallArray = [0,2,4,6,8];
-const largeArray = [0,1,3,5,7,9];
-const smallArray = [2,4,6,8];
+const largeArray1 = [1,3,5,7,9].concat(new Array(5));
+const smallArray1= [0,2,4,6,8];
 
-test( 'mergeArrays(largeArray, smallArray)to equal array', () => {
-  expect(mergeArrays(largeArray, smallArray)).toMatchObject([
+test('Merge small array [0,2,4,6,8] into large array [1,3,5,7,9]. Expected=[0,1,2,3,4,5,6,7,8,9]', () => {
+  expect(mergeArrays(largeArray1, smallArray1)).toMatchObject([
     0, 1, 2, 3, 4,
     5, 6, 7, 8, 9
   ] );
+});
+
+const largeArray2 = [1,5,6,9,10,11].concat(new Array(6));
+const smallArray2 = [0,2,3,4,7,8]; 
+
+test('Merge small array [0,2,3,4,7,8] into large array [1,5,6,9,10,11]. Expected=[0,1,2,3,4,5,6,7,8,9,10,11]', () => {
+  expect(mergeArrays(largeArray2, smallArray2)).toMatchObject([
+    0, 1, 2, 3, 4,
+    5, 6, 7, 8, 9, 10, 11
+  ]);
+});
+
+const largeArray3 = [1,1,6,9,10,11,80].concat(new Array(8));
+const smallArray3 = [0,2,3,4,5,7,8,8];
+
+test('Merge small array [0,2,3,4,5,7,8,8] into large array [1,1,6,9,10,11,80]. Expected=[0,1,1,2,3,4,5,6,7,8,8,9,10,11,80]', () => {
+  expect(mergeArrays(largeArray3, smallArray3)).toMatchObject([
+    0, 1, 1, 2, 3, 4, 5,
+    6, 7, 8, 8, 9, 10, 11, 80
+  ]);
 });
