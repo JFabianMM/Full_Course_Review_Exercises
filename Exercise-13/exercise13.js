@@ -1,11 +1,12 @@
-// // **************************** //
-// // Exercise 13
-// // **************************** //
-
-// 13. Given the root of a tree, write a function that takes two numbers, 
-//     n1 and n2. Search for these two numbers within the tree and indicate 
-//     if they are found at the same depth.
-
+function getObject(str){
+  let tree=str.replace(/(,,)/g, ',');
+  tree= tree.replace(/[(]/g, '[');
+  tree= tree.replace(/[)]/g, ']');
+  tree=tree.replace(/([\A-Za-z0-9+]+)/g,'"$1"');
+  tree=tree.replace(/([\[\A-Za-z0-9+\]]+,)/g,'$1');
+  tree=eval(tree); 
+  return tree;
+}
 
 function getValue(array, positionMap){
   let value=array;
@@ -18,6 +19,7 @@ function getValue(array, positionMap){
 }
 
 const isSameLevel = function(array,n1,n2){
+    array= getObject(array);
     let level=0;
     let foundLevels=[-1,-1];
     let position=0; 

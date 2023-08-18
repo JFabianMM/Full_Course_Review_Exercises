@@ -1,39 +1,17 @@
-// // **************************** //
-// // Exercise 10
-// // **************************** //
-
-// 10. Given a representation of a binary tree, 
-// implement a function that can traverse all 
-// nodes in prefix, infix, and postfix order.
-
-//   Tree: 
-//             A
-//           /   \
-//          B     C
-//        /  \   /  \
-//       D    E F    G
-//             / \    \
-//            H   I    J
-
-// const bTree = '(A,(B,(D),(E)),(C,(F,(H),(I)),(G,,(J))))'; 
-// (VAL, LN, RN)
-// VAL = Value [A-Za-z0-9]+
-// LN = Left Node
-// RN = Right Node
-
-// @param {String} tree
-// @param {String} order  'infix' (default) | 'prefix' | 'postfix'
-
-// Expected answears
-// A B D E C F H I G J   (prefix-order)
-// D B E A H F I C G J   (infix-order)
-// D E B H I F J G C A   (postfix-order)
-
 function getObject(str){
-  let tree= str.replace(/[(]/g, '[');
-  tree= tree.replace(/[)]/g, ']'); 
-  // tree=tree.replace(/([\w+])/g,'"$1"');
-  tree=tree.replace(/([\A-Za-z0-9+])/g,'"$1"');
+  const regexp = /[\A-Za-z0-9+],[\A-Za-z0-9+]/gi;
+  const matches = str.match(regexp);
+  const matches2 = str.match(/,,,/);
+  const regexp2 = /\(\([\A-Za-z0-9+]\)\)/gi;
+  const matches3 = str.match(regexp2);
+  if (matches || matches2 || matches3){
+     throw new Error('Invalid Input');
+  }
+  let tree=str.replace(/(,,)/g, ',');
+  tree= tree.replace(/[(]/g, '[');
+  tree= tree.replace(/[)]/g, ']');
+  tree=tree.replace(/([\A-Za-z0-9+]+)/g,'"$1"');
+  tree=tree.replace(/([\[\A-Za-z0-9+\]]+,)/g,'$1');
   tree=eval(tree); 
   return tree;
 }
@@ -84,6 +62,7 @@ function infixOrder(nested){
   return flat;
 }
 
+// POSTFIX
 function postfixOrder(nested){
   let flat = [];
   function handleFlat(array){
@@ -93,7 +72,6 @@ function postfixOrder(nested){
                flat.push(array[1][0]);
             }else{
               handleFlat(array[1]);
-              
             }
           }
           if (Array.isArray(array[2])) {
@@ -125,12 +103,8 @@ function printTree(tree, order='infix') {
       let result = postfixOrder(tree);
       return result;
     }
-    
 }
 
-//const bTree = '(A,(B,(D),(E)),(C,(F,(H),(I)),(G,(J))))'; 
-//console.log(printTree(bTree, 'prefix'));
-//console.log(printTree(bTree, 'infix'));
-//console.log(printTree(bTree, 'postfix'));
-
+// const bTree = '(A,(B,(D),(E)),(C,(F,(H),(I)),(G,(J))))'; 
+// let a= printTree(bTree,'infix')
 module.exports = printTree

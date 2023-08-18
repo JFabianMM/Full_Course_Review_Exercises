@@ -1,13 +1,11 @@
 const symmetricCheck = require('./exercise12.js')
 
-//const bTree = '(A,(B,(D),(E)),(B,(D),(E)))';
-const bTree1 = '(1,(2,(3),(4,5)),(2,((3),(4,5))))';
-const bTree2 = '(1,(2,(3),(4,5)),(2,((3),(4,4))))';
- 
-test( 'symmetricCheck bTree = true', () => {
+const bTree1 = '(A,(C,(B)),(B,(C)))'; 
+test('The binary tree (A,(C,(B)),(B,(C))) is symmetric = true', () => {
   expect(symmetricCheck(bTree1)).toBe(true);
 });
 
-test( 'symmetricCheck bTree = false', () => {
+const bTree2 = '(A,(B,(C)),(B,(C)))';
+test('The binary tree (A,(B,(C)),(B,(C))) is not symmetric = false', () => {
   expect(symmetricCheck(bTree2)).toBe(false);
 });

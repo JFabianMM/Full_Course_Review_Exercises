@@ -1,21 +1,3 @@
-// // **************************** //
-// // Exercise 14
-// // **************************** //
-
-// 14. Find the greatest area formed by rectangles of 1's in a binary matrix
-  
-// const matrix = [[0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0], 
-//                 [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-//                 [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-//                 [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0],
-//                 [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0],
-//                 [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
-//                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//                 [0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0],
-//                 [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-//                 [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-//               ]               
-
 const matrixArea = function(matrix){
     let maxArea=0;
     let maxAreaPos=[0,0,0,0];
@@ -24,7 +6,7 @@ const matrixArea = function(matrix){
     for (let j=0;j<len;j++){
         let arrLen=matrix[j].length;
         for (let i=0; i<arrLen; i++){
-            if (matrix[j][i]==1){       // AQUI empieza el barrido del area
+            if (matrix[j][i]==1){      
                 x=0;
                 y=0;
                 val=1;
@@ -62,16 +44,12 @@ const matrixArea = function(matrix){
                         }else{
                             val=0;
                         }
-                        
                     }      
                 }
             }
         }      
     }
-    return maxArea; 
-    // console.log('maxArea: ', maxArea);
-    // console.log('maxAreaPos: ', maxAreaPos);                
+    return maxArea;               
 }                   
-// matrixArea(matrix)
 
 module.exports = matrixArea
