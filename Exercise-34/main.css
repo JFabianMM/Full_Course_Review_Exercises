@@ -43,7 +43,7 @@ a{
     text-align: center;
     top: 5px;
     left: 16px;
-    color: black;
+    color: white;
     font-family: 'Charm', serif;
     font-weight: bold;
     font-size: 1.1em;
@@ -84,8 +84,15 @@ a{
     padding-left: 20px;
 }
 
-#feature-story-img{
+.imgContainer{
     width: 100%;
+}
+#feature-story-img{ 
+    height: 400px; 
+    object-fit: cover;
+    object-position: 25% 50%;  
+    width: 100%;
+    overflow: hidden;
 }
 
 .side{
@@ -140,7 +147,7 @@ a{
 }
 
 .side-button{
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
@@ -153,6 +160,7 @@ a{
 }
 .join{
     margin-left: 10px;
+    margin-right: 10px;
 }
 .join h{
     color: rgb(56, 224, 210);
@@ -214,7 +222,7 @@ a{
     justify-content: center;
 }
 #input-grid-text{
-    grid-column:2/8;
+    grid-column:2/9;
     align-self: center; 
     justify-self:center; 
     width: 100%;
@@ -225,8 +233,8 @@ a{
 
 #input-grid-form{
     padding-left: 10px;
-    padding-right: 10px;
-    grid-column:8/13;
+    padding-right: 20px;
+    grid-column:9/13;
     align-self: center; 
     justify-self:center; 
     width: 100%;
@@ -236,15 +244,19 @@ a{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap; 
+    height: 22px;
 }
 #button{
-    border: 1px solid rgb(185, 183, 183);
-    width: 50%;
+    border: 1px solid rgb(218, 216, 216);
+    width: 40%;
     color:rgb(185, 183, 183);
+    font-size: 10px;
 }
 #input{
+    width: 60%;
     border: 1px solid rgb(185, 183, 183);
     color:rgb(185, 183, 183);
+    font-size: 10px;
 }
 
 .stories{
@@ -361,6 +373,10 @@ a{
 }
 
 @media (max-width: 950px) {
+    #feature-story-img{
+        clip-path: inset(0px 0px 0px 0px);
+        width: 100%;
+    }
     .container-grid{
         display:grid;
         grid-template-columns: repeat(5,1fr);
@@ -368,6 +384,17 @@ a{
     }
     .side{
         display:none;
+    }
+    .middle-text{
+        display:none;
+    }
+    #feature-story-img{ 
+        height: 100%;
+        /* object-fit: cover;
+        object-position: 25% 25%;   */
+        /* clip-path: inset(200px 0px 0px 0px); */
+        width: 100%;
+        overflow: hidden;
     }
     .side-medium{
         display:grid;
@@ -419,7 +446,15 @@ a{
         justify-items: center;
         margin-top: 0px;
     }
-            
+        
+    .middle-menu-grid{
+        grid-template-rows:minmax(40px,auto);
+    }
+    .middle-bocks{
+        padding-left: 0px;
+        padding-top: 8px;    
+        text-align: center;
+    }
     .middle-menu{
         grid-column:1/6;
         grid-row:6/7;
@@ -449,6 +484,10 @@ a{
 }
 
 @media (max-width: 740px) {
+    #feature-story-img{
+        clip-path: inset(0px 0px 0px 0px);
+        width: 100%;
+    }
     .tutorials, .news, .top-tips, .contact, .about{
         margin-top: 0px;
     }
@@ -496,6 +535,11 @@ a{
     .menu-diplay{
         display: flex;
     }
+
+    .middle-menu{
+        position: sticky; top:0;
+    }
+    
 
     .middle-menu-grid{
         grid-template-rows:minmax(40px,auto);
