@@ -9,7 +9,7 @@
     
   </head>
 <body>
-  <input type="number" id="divisions" name="N" min="0" max="15"> 
+  <input type="number" id="divisions" name="N" min="0" max="10"> 
   <button onclick="setDivisions()">Set Divisions</button>
 
     <div id=container class="container">
@@ -21,6 +21,21 @@
         </div>
     </div>
        
+    <template id="templateTriangleFills" >
+        <div class="added triangle top fill"></div>
+        <div class="added triangle left fill"></div>
+        <div class="added triangle right fill"></div>
+        <div class="added triangle middle"></div>
+    </template>
+    
+    <template id="templateTriangleInitial" >
+        <div class="triangle">
+            <div class="triangle top fill"></div>
+            <div class="triangle left fill"></div>
+            <div class="triangle right fill"></div>
+            <div id=initial class="triangle middle zero"></div>
+        </div>
+    </template>
   
     <script src="exercise20.js"></script> 
 </body>

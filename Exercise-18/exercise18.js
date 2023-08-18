@@ -1,40 +1,27 @@
-// // **************************** //
-// // Exercise 18
-// // **************************** //
-
-// 18.  Implement shorthand deep object assignment.
-// function set(obj, path, value){}
-// set(obj, 'path.to.deeply.nested.property', 42);    
-
-// let obj={
-//     arr:true
-// }
-
-const set = function(obj, path, value){
-    try{
-        let values = path.split('.');
-        let len=values.length;
-        let obj1;
-        for (let i=0;i<len;i++){
-            if (i==0){
-               let val= values[len-1-i];
-               let dynamic1 = val;
-               obj1 = {[dynamic1] : value};}
-            if (i<len-1 && i>0){
-                let val= values[len-1-i];
-                let dynamic1 = val;
-                obj1 = {[dynamic1] : obj1};}
-            if (i==len-1){
-                let val= values[len-1-i];
-                obj[val] = obj1;
-             }
+function set(obj, path, value) {
+    let newObj=obj;
+    function traverse(path, value) {
+        let partialObj = newObj;
+        let pathArray = path.split('.');
+        let len = pathArray.length;
+        for(let i = 0; i < len-1; i++) {
+            let pathElement = pathArray[i];
+            if( !partialObj[pathElement] ) {
+                partialObj[pathElement] = {};
+            }else{
+                if (typeof partialObj[pathElement] === 'object'){
+                }else{
+                    return obj;
+                }
+            }
+            partialObj = partialObj[pathElement];
         }
-        return obj
-    }catch(e){
-        throw e
+        if (!partialObj[pathArray[len-1]]){
+            partialObj[pathArray[len-1]] = value;
+        }
     }
+    traverse(path, value);
+    return newObj;
 }
 
-// let object= set(obj, 'path.to.deeply.nested.property', 42);
-// console.log('object: ', object);
 module.exports = set

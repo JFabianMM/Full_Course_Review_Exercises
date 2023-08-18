@@ -1,26 +1,11 @@
-// // **************************** //
-// // Exercise 20
-// // **************************** //
-
-const triangleFills =
-  `<div class="added triangle top fill"></div>
-  <div class="added triangle left fill"></div>
-  <div class="added triangle right fill"></div>
-  <div class="added triangle middle"></div>`;
-
-const triangleInitial=
-  `<div class="triangle">
-          <div class="triangle top fill"></div>
-          <div class="triangle left fill"></div>
-          <div class="triangle right fill"></div>
-          <div id=initial class="triangle middle zero"></div>
-    </div>`;
-
+let templateTriangleFills = document.querySelector('#templateTriangleFills').content;
+let templateTriangleInitial = document.querySelector('#templateTriangleInitial').content;
+   
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
-}    
+}
 
 function divisions(x){
     let noChildrenDivs = [];  
@@ -36,16 +21,22 @@ function divisions(x){
         for (let i=0; i<x; i++){
             noChildrenDivs = [...document.querySelectorAll(".fill:empty")] 
             noChildrenDivs.map((triangle) => {
-                triangle.innerHTML = triangleFills;
+                let fragmentFills = document.createDocumentFragment(); 
+                let clone=templateTriangleFills.cloneNode(true);
+                fragmentFills.appendChild(clone);
+                triangle.appendChild(fragmentFills);
             });
         };
     }
 };
 
 function setDivisions() { 
+    let fragmentInitial = document.createDocumentFragment();  
+    let clone=templateTriangleInitial.cloneNode(true);
+    fragmentInitial.appendChild(clone);
     let parent= document.getElementById("container");
     removeAllChildNodes(parent);
-    parent.innerHTML = triangleInitial;
+    parent.appendChild(fragmentInitial);
     let numberDivisions= document.getElementById("divisions").value;
     divisions(numberDivisions);
  }

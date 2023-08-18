@@ -4,7 +4,8 @@ body{
 
 form{
   display: inline-block;
-  position: relative;
+  position: absolute;
+  left: 200px;
   top: 50px;
 }
 label{
@@ -18,20 +19,25 @@ label{
   font-size: 1em;
 }
 .form-field{
+  position: relative;
   display: inline-block;
   width: 200px;
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
-  border-bottom: 0px;
+  border-bottom: 0px;  
 }
 
- input {                
+input {                
   width: 200px;
   border-style: solid;
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
+}
+
+input:focus{
+  outline: none;
 }
 
 button{
@@ -46,10 +52,11 @@ button{
   height: 35px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
-  font-size: 1em;
+  font-size: 1em; 
 }
 
 div.form-field::before{
+  position: relative;
   content: attr(data-hint);
   font-size: 0.5em;
   color: white;
@@ -60,62 +67,22 @@ div.form-field::before{
   top: -15px;
   left: -40px;
   min-width: 500px;
-  box-shadow: 5px 10px 12px #888888;
+  box-shadow: 4px 4px 4px #888888;
+  overflow: hidden;
 } 
 
 div.form-field::after {
   content: "";
-  position: relative;
-  top: -5px; 
-  left: -90%;
-  margin-left: -5px;
+  position: absolute;
+  top: 9px;
+  left: 15%;
   border-width: 5px;
   border-style: solid;
-  z-index: 999;
-  border-color: black transparent transparent transparent;
+  border-color: #000000 transparent transparent;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  background: rgb(2, 2, 2);
+  transform: translateX(-70%) translateY(-70%) rotate(45deg);
+  box-shadow: 4px 4px 4px #888888;
 }
-
-
-/* <div class="form-field" data-hint="Type 5 characters or more">
-    <input name="url" type="text" placeholder="url"/>
-</div> */
-
-/* .tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
-} */
-
-/* .tooltip .tooltiptext {
-  visibility: hidden; 
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 150%;
-  left: 50%;
-  margin-left: -60px;
-} */
-
-/* .tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 20%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: black transparent transparent transparent;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-} */
-
-/* <div class="tooltip">Hover over me
-      <span class="tooltiptext">Tooltip text</span>
-</div> */

@@ -5,18 +5,20 @@ let singlyList1=new SinglyLinkedList();
 singlyList1.push(0);
 singlyList1.push(1);
 singlyList1.push(2);
-singlyList1.push(3);
-singlyList1.push(4);
-singlyList1.push(5);
-singlyList1.push(7);
-singlyList1.push(5);
-singlyList1.push(4);
-singlyList1.push(3);
-singlyList1.push(2);
 singlyList1.push(1);
 singlyList1.push(0);
 
-
-test( 'Find palindrome = true', () => {
+test('Linked list singlyList1 is palindrome = true', () => {
   expect(palindromeCheck(singlyList1)).toBe(true);
+});
+
+let singlyList2=new SinglyLinkedList();
+singlyList2.push(0);
+singlyList2.push(2);
+singlyList2.push(2);
+singlyList2.push(1);
+singlyList2.push(0);
+
+test('Linked list singlyList2 is palindrome = false', () => {
+  expect(palindromeCheck(singlyList2)).toBe(false);
 });
