@@ -23,11 +23,9 @@ export default (state = initialState, action) => {
 };
 
 
-// action creators for Stop and Start buttons. You can also put them into componentDidMount
 export const startChannel = () => ({type: START_CHANNEL});
 export const stopChannel = () => ({type: STOP_CHANNEL});
 
-// wrapping functions for socket events (connect, disconnect, reconnect)
 let socket;
 const connect = () => {
   socket = io(socketServerURL);
@@ -57,7 +55,6 @@ const reconnect = () => {
   });
 };
 
-// This is how channel is created
 const createSocketChannel = socket => eventChannel((emit) => {
   const handler = (data) => {
     emit(data);
@@ -68,7 +65,7 @@ const createSocketChannel = socket => eventChannel((emit) => {
   };
 });
 
-// connection monitoring sagas
+
 const listenDisconnectSaga = function* () {
   while (true) {
     yield call(disconnect);
@@ -81,7 +78,7 @@ const listenConnectSaga = function* () {
   }
 };
 
-// Saga to switch on channel.
+
 const listenServerSaga = function* () {
   try {
     const {timeout} = yield race({
@@ -106,7 +103,6 @@ const listenServerSaga = function* () {
   }
 };
 
-// saga listens for start and stop actions
 export const startStopChannel = function* () {
   while (true) {
     yield take(START_CHANNEL);

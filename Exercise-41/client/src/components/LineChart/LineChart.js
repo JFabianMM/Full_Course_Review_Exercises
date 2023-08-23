@@ -26,7 +26,6 @@ ChartJS.register(
   ArcElement
 );
 
-
 const LineChart = ({yValues, xLabels, label}) => {
 
  let myData = {

@@ -19,11 +19,18 @@ io.on("connection", (socket) => {
     });
 
     setInterval(() => {
-            // Here we can obtain periodically the data changes from a file or from a request to another server
+            // Here we can obtain periodically the data changes 
+            // from a file or from a request to another server
+            let val=profits[0];
+            profits.shift();
+            profits.push(val);
+            let val2=months[0];
+            months.shift();
+            months.push(val2);
             socket.emit("newChartData", {
                 profits: profits,
                 months: months
             });
-        }, 10000     // In this case is evrey 10 seconds
+        }, 5000     // In this case is evrey 10 seconds
     )
 });
