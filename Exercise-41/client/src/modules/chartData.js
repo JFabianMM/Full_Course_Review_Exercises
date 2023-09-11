@@ -78,7 +78,6 @@ const listenConnectSaga = function* () {
   }
 };
 
-
 const listenServerSaga = function* () {
   try {
     const {timeout} = yield race({
