@@ -47,21 +47,17 @@ function taskFactorySample(ms, solved, val){
      return ar
 }
 
-const taskFactory = (ms, solved, val) =>
-  new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      try {
-           if (solved){
-            resolve(val)
-           }else{
-            throw new Error(val);
-           }
-      } catch (error) {
-        reject(val)
-      }
-    }, ms)
-  })
-  
+const taskFactory = (ms, solved, val) =>{
+    let time=ms/1000;
+    url=`https://hub.dummyapis.com/delay?seconds=${time}`;
+    return fetch(url).then((result) => {
+        if (solved){
+            return val;
+        }else{
+            return 'error';
+        }
+    });
+}
 
 async function runTasks(tasks, pool_size){
     try{
@@ -90,7 +86,6 @@ async function runTasks(tasks, pool_size){
             }
         })
     }
-
     await p.run();
     return finalResult;
     }catch(error) {
@@ -98,7 +93,8 @@ async function runTasks(tasks, pool_size){
     
 };
 
-module.exports = runTasks
-module.exports = taskFactorySample
-module.exports = taskFactory
+module.exports = {
+    runTasks: runTasks,
+    taskFactorySample: taskFactorySample
+};
 

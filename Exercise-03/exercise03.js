@@ -1,23 +1,15 @@
 require('isomorphic-fetch');
-let controller;
 
-function cancellableFetch(url) {
+let cancellableFetch = async function (url) {
     controller = new AbortController();
-    return fetch(url, {   
+    let res=  fetch(url, {   
         signal: controller.signal,                   
-    }).then(function(data) {
-        return data.statusText;
+    }).then((result) => {
+        return result.json();
     }).catch(error => {
         return error.name;
     });
-  };
-
-const url='https://hub.dummyapis.com/delay?seconds=3';
-let result = cancellableFetch(url);
-result.cancel=function(){ 
-        controller.abort();
-};
-
-setTimeout(() => result.cancel(), 2000); 
+    return res;
+    };
 
 module.exports = cancellableFetch

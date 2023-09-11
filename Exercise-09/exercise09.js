@@ -58,5 +58,7 @@ const flattenIterative = function(array){
     return flat;
 }
 
-module.exports = flattenIterative
-module.exports = flattenRecursive
+module.exports = {
+  flattenIterative: flattenIterative,
+  flattenRecursive: flattenRecursive,
+};

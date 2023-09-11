@@ -1,28 +1,13 @@
-
 const fetch = require("node-fetch");
 
 async function asyncProcessing (url, timeout) {
     let res=[]; 
-    let resultado;
-    let responseTime=2000;
-    res[0] = new Promise((resolve, reject)=>{    // This emulate the fetch
-        setTimeout(function(){                  
-              fetch(url).then((result) => {
-                return new Promise((resolve, reject) => {
-                    resolve(result.json());
-                }).then((response) => {
-                    resolve({response});
-                });
+    res[0] = fetch(url).then((result) => {
+                return result.json();
             });
-        }, responseTime);           // This emulate the response time of fetch 
-      return resultado
-    }) 
-
     res[1] = new Promise((resolve, reject)=>{     // This set the timeout
         setTimeout(function(){
-            if(timeout<responseTime){
                 reject('timeout');
-            }
         }, timeout);    
     })
     const result = await Promise.race(res);
@@ -42,9 +27,6 @@ async function queryRetry(url, maxRetry, delay, useIncrement) {
       if (useIncrement==true){
          delay=delay*timeincreaseRate;
       }
-      if (useIncrement==false){
-        break;
-     }
   }
   return result
 }
