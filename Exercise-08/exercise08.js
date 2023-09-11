@@ -46,5 +46,7 @@ function flattenFunctional(oldObj,parentName){     /// Functional Approach
     return result;
 };
 
-module.exports = flattenFunctional
-module.exports = flattenImperative
+module.exports = {
+    flattenFunctional: flattenImperative,
+    flattenImperative: flattenFunctional,
+};

@@ -1,76 +1,48 @@
-function getObject(str){
-  let tree=str.replace(/(,,)/g, ',');
-  tree= tree.replace(/[(]/g, '[');
-  tree= tree.replace(/[)]/g, ']');
-  tree=tree.replace(/([\A-Za-z0-9+]+)/g,'"$1"');
-  tree=tree.replace(/([\[\A-Za-z0-9+\]]+,)/g,'$1');
-  tree=eval(tree); 
-  return tree;
-}
+const isSameLevel = function(root,n1,n2){
+    let visited = [];
+    let current = root;
 
-function getValue(array, positionMap){
-  let value=array;
-  let len= positionMap.length;
-  for (let i=0; i<len; i++){
-     let pos=positionMap[i][1];
-     value=value[pos];
-     if(i==len-1) return value;
-  }
-}
-
-const isSameLevel = function(array,n1,n2){
-    array= getObject(array);
-    let level=0;
-    let foundLevels=[-1,-1];
-    let position=0; 
-    let flat = [];
-    let len = array.length;
-    let maxPos=len-1;
-    let positionMap=[[level, position, maxPos]]; 
-    let counter=0;
-    let lenPos;
-
-    while (positionMap[0][1] <= positionMap[0][2]) {
-        counter++;
-        if (positionMap[level][1]>positionMap[level][2]){
-            positionMap.pop();
-            level--;
-            positionMap[level][1]++;    
-        }else{
-            let value= getValue(array, positionMap);
-            if (Array.isArray(value)) {
-                level++
-                positionMap.push([level, 0, value.length-1]);
-            }else{
-                if (value==n1 || value==n2){
-                    if (value==n1){
-                       lenPos= positionMap.length;
-                       if (foundLevels[0]==-1){
-                          foundLevels[0]=positionMap[lenPos-1][0];
-                       }else{
-                        if (value==n2){
-                          if (foundLevels[1]==-1){
-                            foundLevels[1]=positionMap[lenPos-1][0];
-                          }
-                        }
-                       }
-                    }else{
-                      lenPos= positionMap.length;
-                      if (foundLevels[1]==-1){
-                         foundLevels[1]=positionMap[lenPos-1][0];
-                      }
-                    }
-                }
-                flat.push(value);
-                positionMap[level][1]++;                
+    function traverse (node, n1, n2, level=0){
+        let flag=0;
+        if (n1==node.value){
+            visited.push(level);
+            n1='found';
+            flag=1;
+        }
+        if (n2==node.value){
+            if (flag==0){
+              visited.push(level);
+              n2='found';
             }
         }
+        let len=node.children.length;
+        level=level+1;
+        for (let i=0; i<len; i++){
+            traverse(node.children[i], n1, n2, level);
+        }
+    };
+    traverse(current, n1, n2);
+    if (visited.length==2){
+        if (visited[0]==visited[1]){
+          return true
+        }
     }
-    if (foundLevels[0]==foundLevels[1] && foundLevels[0]!=-1){
-        return true;  
-    } else{
-      return false
-    }
+    return false; 
 }
 
-module.exports = isSameLevel
+
+const Tree = function(value) {
+  this.value = value;
+  this.children = [];
+};
+
+Tree.prototype.addChild = function(value) {
+  let child = new Tree(value);
+  this.children.push(child);
+  return child;
+}
+
+module.exports = {
+  isSameLevel: isSameLevel,
+  Tree: Tree,
+};

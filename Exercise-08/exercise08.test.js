@@ -1,38 +1,22 @@
-const flattenFunctional = require('./exercise08.js');
-const flattenImperative = require('./exercise08.js')
+const {flattenFunctional, flattenImperative} = require('./exercise08.js');
 
-// This is the object to be flatten
-const oldObj = {
-  name: 'Sara',
-  gender: 'Apache Attack Helicopter',
-  address: {
+test('Flatten function (with imperative style approach) will flat the object oldObj (input = oldObj), with name= oldObj. (with undefined object)', () => { 
+  const oldObj = {
+    name: 'Sara',
+    gender: 'Apache Attack Helicopter',
+    address: {
       location: {
-          city: 'SF',
-          state: 'CA'
+        city: 'SF',
+        state: 'CA'
       },
       preferredLocation: {
-          city: 'SF',
-          state: ['CA', 'MN']
+        city: 'SF',
+        state: ['CA', 'MN']
       },
       other: undefined
-  }
-};
-
-const name= 'oldObj';
-test( 'flattenFunctional input = oldObj, name= oldObj to match with object (with undefined object)', () => {
-  expect(flattenFunctional(oldObj, name)).toMatchObject(
-    {
-      oldObj_name: 'Sara',
-      oldObj_gender: 'Apache Attack Helicopter',
-      oldObj_address_location_city: 'SF',
-      oldObj_address_location_state: 'CA',
-      oldObj_address_preferredLocation_city: 'SF',
-      oldObj_address_preferredLocation_state: [ 'CA', 'MN' ],
-      oldObj_address_other: undefined
-    });
-});
-
-test( 'flattenImperative input = oldObj, name= oldObj to match with object (with undefined object)', () => {
+    }
+  };
+  const name= 'oldObj';
   expect(flattenImperative(oldObj, name)).toMatchObject(
     {
       oldObj_name: 'Sara',
@@ -45,28 +29,82 @@ test( 'flattenImperative input = oldObj, name= oldObj to match with object (with
     });
 });
 
-
-// This is the object to be flatten
-const oldObj2 = {
-  name: 'Sara',
-  gender: 'Apache Attack Helicopter',
-  address: {
+test('Flatten function (with functional style approach) will flat the object oldObj (input = oldObj), with name= oldObj. (with undefined object).', () => { 
+  const oldObj = {
+    name: 'Sara',
+    gender: 'Apache Attack Helicopter',
+    address: {
       location: {
-          city: 'SF',
-          state: 'CA'
+        city: 'SF',
+        state: 'CA'
       },
       preferredLocation: {
-          city: 'SF',
-          state: ['CA', 'MN']
+        city: 'SF',
+        state: ['CA', 'MN']
+      },
+      other: undefined
+    }
+  };
+  const name= 'oldObj';
+  expect(flattenFunctional(oldObj, name)).toMatchObject(
+    {
+      oldObj_name: 'Sara',
+      oldObj_gender: 'Apache Attack Helicopter',
+      oldObj_address_location_city: 'SF',
+      oldObj_address_location_state: 'CA',
+      oldObj_address_preferredLocation_city: 'SF',
+      oldObj_address_preferredLocation_state: [ 'CA', 'MN' ],
+      oldObj_address_other: undefined
+    });
+});
+
+test('Flatten function (with imperative style approach) will flat the object oldObj (input = oldObj), with name= oldObj. (with null object)', () => {
+  const oldObj = {
+    name: 'Sara',
+    gender: 'Apache Attack Helicopter',
+    address: {
+      location: {
+        city: 'SF',
+        state: 'CA'
+      },
+      preferredLocation: {
+        city: 'SF',
+        state: ['CA', 'MN']
       },
       other: null
-  }
-};
+    }
+  };
+  const name= 'oldObj';
+  expect(flattenImperative(oldObj, name)).toMatchObject(
+      {
+        oldObj_name: 'Sara',
+        oldObj_gender: 'Apache Attack Helicopter',
+        oldObj_address_location_city: 'SF',
+        oldObj_address_location_state: 'CA',
+        oldObj_address_preferredLocation_city: 'SF',
+        oldObj_address_preferredLocation_state: [ 'CA', 'MN' ],
+        oldObj_address_other: null
+      });
+});
 
-const name2= 'oldObj';
-
-test( 'flattenFunctional input = oldObj, name= oldObj to match with object (with null object)', () => {
-  expect(flattenFunctional(oldObj2, name2)).toMatchObject(
+test('Flatten function (with functional style approach) will flat the object oldObj (input = oldObj), with name= oldObj. (with null object)', () => {
+  const oldObj = {
+    name: 'Sara',
+    gender: 'Apache Attack Helicopter',
+    address: {
+      location: {
+        city: 'SF',
+        state: 'CA'
+      },
+      preferredLocation: {
+        city: 'SF',
+        state: ['CA', 'MN']
+      },
+      other: null
+    }
+  };
+  const name= 'oldObj';
+  expect(flattenFunctional(oldObj, name)).toMatchObject(
     {
       oldObj_name: 'Sara',
       oldObj_gender: 'Apache Attack Helicopter',
@@ -78,15 +116,3 @@ test( 'flattenFunctional input = oldObj, name= oldObj to match with object (with
     });
 });
 
-test( 'flattenImperative input = oldObj, name= oldObj to match with object (with null object)', () => {
-  expect(flattenImperative(oldObj2, name2)).toMatchObject(
-    {
-      oldObj_name: 'Sara',
-      oldObj_gender: 'Apache Attack Helicopter',
-      oldObj_address_location_city: 'SF',
-      oldObj_address_location_state: 'CA',
-      oldObj_address_preferredLocation_city: 'SF',
-      oldObj_address_preferredLocation_state: [ 'CA', 'MN' ],
-      oldObj_address_other: null
-    });
-});

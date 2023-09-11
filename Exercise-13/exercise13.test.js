@@ -1,23 +1,20 @@
-const isSameLevel = require('./exercise13.js')
+const {isSameLevel, Tree} = require('./exercise13.js');
 
-const array = '(1,2,3,(4,5,(6,(7),8,)),(9,10))'; 
- 
-test('Input (1,2,3,(4,5,(6,(7),8,)),(9,10)) with numbers 1 and 1. Same level = false', () => {
-  expect(isSameLevel(array,1,1)).toBe(false);
+let tree = new Tree(1);
+let branch2 = tree.addChild(2);
+let branch3 = tree.addChild(3);
+branch2.addChild(4);
+branch2.addChild(5);
+branch3.addChild(6);
+let leaf7 = branch3.addChild(7);
+let leaf8 = leaf7.addChild(8);
+leaf8.addChild(9);
+leaf8.addChild(10);
+
+test('The function travers the tree and find if the values n1 and n2 are in the same level. Input tree, n1=6 and n2=7, with result = true', () => {
+  expect(isSameLevel(tree,6,7)).toBe(true);
 });
 
-test('Input (1,2,3,(4,5,(6,(7),8,)),(9,10)) with numbers 1 and 4. Same level = false', () => {
-  expect(isSameLevel(array,1,4)).toBe(false);
-});
-
-test('Input (1,2,3,(4,5,(6,(7),8,)),(9,10)) with numbers 6 and 8. Same level = true', () => {
-  expect(isSameLevel(array,6,8)).toBe(true);
-});
-
-test('Input (1,2,3,(4,5,(6,(7),8,)),(9,10)) with numbers 4 and 10. Same level = true', () => {
-  expect(isSameLevel(array,4,10)).toBe(true);
-});
-
-test('Input (1,2,3,(4,5,(6,(7),8,)),(9,10)) with numbers 1 and 10. Same level = false', () => {
-  expect(isSameLevel(array,1,10)).toBe(false);
+test('The function travers the tree and find if the values n1 and n2 are in the same level. Input tree, n1=2 and n2=4, with result = false', () => {
+  expect(isSameLevel(tree,2,4)).toBe(false);
 });

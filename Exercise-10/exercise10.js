@@ -4,7 +4,15 @@ function getObject(str){
   const matches2 = str.match(/,,,/);
   const regexp2 = /\(\([\A-Za-z0-9+]\)\)/gi;
   const matches3 = str.match(regexp2);
-  if (matches || matches2 || matches3){
+  const matches4 = str.match(/\),,/);
+  const matches5 = str.match(/,,\(/);
+  const matches6 = str.match(/\(,/);
+  const matches7 = str.match(/\(\(/);
+  const regexp3 = /,[\A-Za-z0-9+],/gi;
+  const matches8 = str.match(regexp3);
+  const regexp4 = /,[\A-Za-z0-9+]\)/gi;
+  const matches9 = str.match(regexp4);
+  if (matches || matches2 || matches3 || matches4 || matches5 || matches6 || matches7 || matches8 || matches9){
      throw new Error('Invalid Input');
   }
   let tree=str.replace(/(,,)/g, ',');
@@ -105,6 +113,4 @@ function printTree(tree, order='infix') {
     }
 }
 
-// const bTree = '(A,(B,(D),(E)),(C,(F,(H),(I)),(G,(J))))'; 
-// let a= printTree(bTree,'infix')
 module.exports = printTree
