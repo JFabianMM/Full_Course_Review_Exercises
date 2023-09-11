@@ -1,4 +1,3 @@
-
 function Node(value, next = null) { return { value, next } }
 
 class SinglyLinkedList{
@@ -21,33 +20,12 @@ class SinglyLinkedList{
         nod.next=newNode;
         return this
     }
-    getLength(){
-        let set = new Set();
-        let current = this.head;
-        let count=0;
-        while (current && count<20){
-            count++;
-            if(set.has(current)){
-                return count
-            }else{
-                set.add(current)
-            }
-            if (current.next==null){
-                break
-            }
-            current=current.next;
-        } 
-        return count
-    }
     findLoop(){
         let set = new Set();
         let current = this.head;
-        let count=0;
         let index=null;
         let loop=null;
-        let lastNode=null;
         while(current){
-            count++
             if(set.has(current)){
                 loop=true;
                 break
@@ -57,15 +35,14 @@ class SinglyLinkedList{
             current = current.next
         }
         if (loop){
-            lastNode=current;
-            current=this.head;
-            for (let i=0; i<count;i++){
-                if (current == lastNode){
-                    index = i;
-                    return index
+            let counter=0;
+            for (const value of set) {
+                if (current== value) {
+                  break;
                 }
-                current = current.next
+                counter ++;
             }
+            index=counter;
         }
         return index;
     }
@@ -89,35 +66,6 @@ class SinglyLinkedList{
             lastNode.next=indexNode;
         } 
         return this
-    }
-    palindrome(){
-        let set = new Set();
-        let values=[];
-        let current = this.head;
-        let count=0;
-        while (current && count<20){
-            count++;
-            if(set.has(current)){
-                return false
-            }else{
-                values.push(current.value);
-                set.add(current)
-            }
-            if (current.next==null){
-                break
-            }
-            current=current.next;
-        } 
-        let it= Math.floor(count / 2);
-        for (let i=0; i<it;i++){
-            let val1=values[i];
-            let val2=values[count-1-i];
-            if (val1==val2){
-            }else{
-                return false;
-            }
-        }
-        return true
     }
 }
 

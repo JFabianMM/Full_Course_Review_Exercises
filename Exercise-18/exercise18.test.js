@@ -1,8 +1,9 @@
 const set = require('./exercise18');
 
-let obj1={arr:true};
-test('Add to obj1={arr: true} a shorthand deep object of "a.b.c" = {arr: true, path:{to:{deeply:{nested:{property:42}}}}}', () => {
-  expect(set(obj1, 'path.to.deeply.nested.property', 42)).toEqual({
+
+test('The function implement shorthand deep object assignment. To obj={arr: true} a shorthand deep object of "a.b.c" with value 42. The result must be {arr: true, path:{to:{deeply:{nested:{property:42}}}}}', () => {
+  let obj={arr:true};
+  expect(set(obj, 'path.to.deeply.nested.property', 42)).toEqual({
     arr:true,
     path:{
       to:{
@@ -16,19 +17,18 @@ test('Add to obj1={arr: true} a shorthand deep object of "a.b.c" = {arr: true, p
   });
 });
 
-
-let obj2 = {a: 1};
-test('Add to obj2={a: 1} a shorthand deep object of "a.b.c" = {a: 1}', () => {
-   expect(set(obj2, 'a.b.c', 2)).toEqual({a: 1});
+test('The function implement shorthand deep object assignment. To obj={a: 1} a shorthand deep object of "a.b.c" with value 2. The result must be {a: 1}', () => {
+  let obj = {a: 1};
+  expect(set(obj, 'a.b.c', 2)).toEqual({a: 1});
 });
 
-let obj3 = {
-  a: {
-    x: 3
-  }
-};
-test('Add to obj3={a: {x:3}} a shorthand deep object of "a.b.c" = {a: {x:3,b:{c:2}}}', () => {
-   expect(set(obj3, 'a.b.c', 2)).toEqual({
+test('The function implement shorthand deep object assignment. To obj={a: {x:3}} a shorthand deep object of "a.b.c" with value 2. The result must be {a: {x:3,b:{c:2}}}', () => {
+  let obj = {
+    a: {
+      x: 3
+    }
+  };
+  expect(set(obj, 'a.b.c', 2)).toEqual({
     a: {
       x: 3,
       b: {
@@ -38,17 +38,17 @@ test('Add to obj3={a: {x:3}} a shorthand deep object of "a.b.c" = {a: {x:3,b:{c:
   });
 });
 
-let obj4 = {
-  a: {
-    b:{
-      cc:'cc', 
-      k:{f:'f'},
-      ss:{last:'last'}
+test('The function implement shorthand deep object assignment. To obj={a: {b:{cc:"cc",k:{f:"f"},ss:{last:"last"}}}} a shorthand deep object of "a.b.c" with value 2. The result must be {a: {b:{cc:"cc",k:{f:"f"},ss:{last:"last"},c:2}}}', () => {
+  let obj = {
+    a: {
+      b:{
+        cc:'cc', 
+        k:{f:'f'},
+        ss:{last:'last'}
+      }
     }
   }
-}
-test('Add to obj4={a: {b:{cc:"cc",k:{f:"f"},ss:{last:"last"}}}} a shorthand deep object of "a.b.c" = {a: {b:{cc:"cc",k:{f:"f"},ss:{last:"last"},c:2}}}', () => {
-   expect(set(obj4, 'a.b.c', 2)).toEqual({
+  expect(set(obj, 'a.b.c', 2)).toEqual({
     a: {
       b:{
         cc:'cc', 
@@ -59,3 +59,40 @@ test('Add to obj4={a: {b:{cc:"cc",k:{f:"f"},ss:{last:"last"}}}} a shorthand deep
     }
   });
 });
+
+test('The function implement shorthand deep object assignment. To obj={a: {b:{cc:{l:func},k:{f:"f"},ss:{last:"last"}}}} a shorthand deep object of "a.b.c" with value 2. The result must be {a: {b:{cc:{l:func},k:{f:"f"},ss:{last:"last"},c:2}}}', () => {
+  let func=function(){return true};
+  let obj = {
+    a: {
+      b:{
+        cc:{l:func}, 
+        k:{f:'f'},
+        ss:{last:'last'}
+      }
+    }
+  }
+  expect(set(obj, 'a.b.c', 2)).toEqual({
+    a: {
+      b:{
+        cc:{l:func}, 
+        k:{f:'f'},
+        ss:{last:'last'},
+        c:2
+      }
+    }
+  });
+});
+
+test('The function implement shorthand deep object assignment. To obj={a: {n:func}}, a shorthand deep object of "a.b.c" with value 2. The result must be = {a: {n:func},b:{c:2}}', () => {
+  let func=function(){return true};
+  let obj = {
+      a: {n:func}
+  } 
+  expect(set(obj, 'a.b.c', 2)).toEqual({
+    a: {
+      n:func,
+      b:{c:2}
+    }
+  });
+});
+

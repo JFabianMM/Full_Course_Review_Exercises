@@ -24,9 +24,14 @@
       const originalSetTimeout = window.setTimeout;
       window.setTimeout = function(callback, delay, ...args) {
              if ([...args].length==0){
-                   let str= "" + callback;
-                   const quotedText = str.match(/(?:"[^"]*"|^[^"]*$)/)[0].replace(/"/g, "");
-                   return originalSetTimeout(assert, delay, true, quotedText);
+                   var original = callback;
+                   callback = function() {
+                      return original.apply(this, arguments);
+                  };
+                  let element=callback();
+                   let text = element.innerHTML;
+                   element.remove();
+                   return originalSetTimeout(assert, delay, true, text);
              }
              return originalSetTimeout(callback, delay, ...args);
       };
