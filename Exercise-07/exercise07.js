@@ -68,3 +68,4 @@ function longestRunOfTwoNumbers(input){
 }
 
 module.exports = longestRunOfTwoNumbers
+

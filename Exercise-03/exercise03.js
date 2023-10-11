@@ -18,3 +18,4 @@ class CancelableFetch {
 
 const cancellableFetch = (url) => new CancelableFetch(url); 
 module.exports = cancellableFetch;
+
