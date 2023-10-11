@@ -1,20 +1,34 @@
 function getObject(str){
+  let len=str.length;
+  while (str[len-1]==' ') {
+        str=str.substring(0, len-1);
+        len=str.length;
+  }
+  while (str[0]==' ') {
+    str=str.substring(1, len);
+    len=str.length;
+  }
+  let lackOfParentesis=null;
+  if(str[0]!='(' || str[len-1]!=')'){
+    lackOfParentesis=1;
+  }
+
   const regexp = /[\A-Za-z0-9+],[\A-Za-z0-9+]/gi;
-  const matches = str.match(regexp);
-  const matches2 = str.match(/,,,/);
+  const noParentesis = str.match(regexp);
+  const commastriple = str.match(/,,,/);
   const regexp2 = /\(\([\A-Za-z0-9+]\)\)/gi;
-  const matches3 = str.match(regexp2);
-  const matches4 = str.match(/\),,/);
-  const matches5 = str.match(/,,\(/);
-  const matches6 = str.match(/\(,/);
-  const matches7 = str.match(/\(\(/);
+  const repeatedParentesis = str.match(regexp2);
+  const comasAfterParentesis = str.match(/\),,/);
+  const comasBeforeParentesis = str.match(/\(,/);
+  const doubleParentesis = str.match(/\(\(/);
   const regexp3 = /,[\A-Za-z0-9+],/gi;
-  const matches8 = str.match(regexp3);
+  const withoutParentesis = str.match(regexp3);
   const regexp4 = /,[\A-Za-z0-9+]\)/gi;
-  const matches9 = str.match(regexp4);
-  if (matches || matches2 || matches3 || matches4 || matches5 || matches6 || matches7 || matches8 || matches9){
+  const incompleteParentesis = str.match(regexp4);
+  if (noParentesis || commastriple || repeatedParentesis || comasAfterParentesis || comasBeforeParentesis || doubleParentesis || withoutParentesis || incompleteParentesis || lackOfParentesis){
      throw new Error('Invalid Input');
   }
+
   let tree=str.replace(/(,,)/g, ',');
   tree= tree.replace(/[(]/g, '[');
   tree= tree.replace(/[)]/g, ']');
@@ -114,3 +128,4 @@ function printTree(tree, order='infix') {
 }
 
 module.exports = printTree
+

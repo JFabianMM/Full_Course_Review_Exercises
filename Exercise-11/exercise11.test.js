@@ -72,6 +72,5 @@ test('Must select nodes whose children match a pattern. For the input "div.note 
   `;
   require('./exercise11.js');
   const elements = querySelectorAll("div < span > input");
-  const div5 = document.getElementById('5');
   expect(elements[2]).toBe(undefined);
 });

@@ -1,18 +1,15 @@
 const isSameLevel = function(root,n1,n2){
     let visited = [];
     let current = root;
-
     function traverse (node, n1, n2, level=0){
         let flag=0;
         if (n1==node.value){
-            visited.push(level);
-            n1='found';
+            visited.push({number:n1, level:level});
             flag=1;
         }
         if (n2==node.value){
             if (flag==0){
-              visited.push(level);
-              n2='found';
+              visited.push({number:n2, level:level});
             }
         }
         let len=node.children.length;
@@ -22,18 +19,33 @@ const isSameLevel = function(root,n1,n2){
         }
     };
     traverse(current, n1, n2);
-    if (visited.length==2){
-        if (visited[0]==visited[1]){
-          return true
+    let len = visited.length;
+    for(let i=0; i<len; i++){
+        if(visited[i].number==n1){
+          for(let j=i+1; j<len; j++){
+            if (visited[j].number==n2){
+                if(visited[i].level==visited[j].level){
+                  return true
+                }                 
+            }
+          }        
         }
+        if(visited[i].number==n2){
+          for(let j=i+1; j<len; j++){
+            if (visited[j].number==n1){
+                if(visited[i].level==visited[j].level){
+                  return true
+                }                 
+            }
+          }        
+        }              
     }
     return false; 
 }
 
-
-const Tree = function(value) {
+const Tree = function(value, children = []) {
   this.value = value;
-  this.children = [];
+  this.children = children;
 };
 
 Tree.prototype.addChild = function(value) {
@@ -46,3 +58,4 @@ module.exports = {
   isSameLevel: isSameLevel,
   Tree: Tree,
 };
+
