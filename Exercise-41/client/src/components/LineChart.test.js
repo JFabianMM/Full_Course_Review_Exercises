@@ -1,25 +1,11 @@
-import './App.css';
-import { startChannel } from './modules/chartData';
-import { useSelector } from "react-redux";
-import {connect} from 'react-redux';
-import LineChart from './components/LineChart/LineChart';
-import { useEffect } from 'react';
+import { render, screen } from '@testing-library/react';
+import LineChart from '../components/LineChart/LineChart';
+import 'jest-canvas-mock';
 
-function App(props:any) {
-  const {startChannel} = props;
-  const chartData = useSelector((state:any) => state.dataReducer);
+let profits= [0, 56, 20, 36, 80, 40, 30, 20, 25, 30, 12, 60];
+let months= ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Sepetember', 'October', 'November', 'December'];
 
-  let profits:any=[];
-  let months:any=[];
-
-  chartData.chartData.map((chart:any) => {
-    for (let i=0; i<chart.months.length; i++){
-      profits.push(chart.profits[i]);
-      months.push(chart.months[i]);
-    }
-  })
-
-  let myData = {
+let myData = {
     labels: months,
     datasets: [
         {
@@ -71,7 +57,7 @@ let myoptions={
         },
         title: {
             display: true,
-            text: 'Title: Chart Exercise 41',
+            text: 'Chart Exercise 41',
             font: {
                 size: 20,
               },
@@ -79,16 +65,22 @@ let myoptions={
     }
 };
 
-    useEffect(() => {
-    startChannel();
-  }, []);
+describe('LineChart component', () =>{
+    let exercise41Chart;
+    beforeEach(async ()=>{
+        render(<LineChart data={myData} options={myoptions}/>);
+        exercise41Chart = await screen.findByRole('img', {
+            name: 'Exercise 41 Chart',
+          });
+    })
 
-  return (
-        <LineChart data={myData} options={myoptions}/>
-  );
-}
-
-const mapStateToProps = (state: any) => ({
-});
-
-export default connect(mapStateToProps, {startChannel})(App);
+    test('The chart is in the document', async ()=>{
+          expect(exercise41Chart).toBeDefined();
+    })
+    test('The chart is in the document', async ()=>{
+        expect(exercise41Chart).toHaveAttribute("width", "300")
+    })
+    test('The chart is in the document', async ()=>{
+        expect(exercise41Chart).toHaveAttribute("height", "150")
+    })
+})

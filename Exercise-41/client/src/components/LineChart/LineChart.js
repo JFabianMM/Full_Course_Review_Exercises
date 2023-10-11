@@ -27,10 +27,10 @@ ChartJS.register(
 );
 
 const LineChart = ({data, options}) => {
-
   return (
-    <div style={{display: 'flex', width: '400px', justifyContent: 'space-between'}}>
-        <Line data={data} options={options}/>    
+    <div style={{display: 'flex', width: '600px', justifyContent: 'space-between'}}>
+        
+        <Line data={data} options={options} aria-label="Exercise 41 Chart"/>    
     </div>    
   );
 };

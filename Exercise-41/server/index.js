@@ -8,7 +8,6 @@ console.log('Server started');
 
 io.on("connection", (socket) => {
     console.log("Connection opened");
-    
     // Here we can obtain the data from a file or from a request to another server
     let profits= [0, 56, 20, 36, 80, 40, 30, 20, 25, 30, 12, 60];
     let months= ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Sepetember', 'October', 'November', 'December'];
