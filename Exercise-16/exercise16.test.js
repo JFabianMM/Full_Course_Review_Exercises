@@ -50,3 +50,13 @@ test('Find the node at the beginning of a loop in a singly linked list. The loop
   singlyList.loop(6);
   expect(singlyList.findLoop()).toBe(6);
 });
+
+test('Find the node at the beginning of a loop in a singly linked list. The loop is not found, to be null', () => {
+  let singlyList=new SinglyLinkedList();
+  singlyList.push(110);
+  singlyList.push(111);
+  singlyList.push(112);
+  singlyList.push(113);
+  singlyList.push(114);
+  expect(singlyList.findLoop()).toBe(null);
+});

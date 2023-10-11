@@ -6,22 +6,26 @@ function set(obj, path, value) {
         let len = pathArray.length;
         for(let i = 0; i < len-1; i++) {
             let pathElement = pathArray[i];
-            if( !partialObj[pathElement] ) {
-                partialObj[pathElement] = {};
+            if( !partialObj[pathElement] || partialObj[pathElement]==null || partialObj[pathElement]==false ) {
+                if (partialObj[pathElement]== undefined){
+                    partialObj[pathElement] = {};
+                }
             }else{
-                if (typeof partialObj[pathElement] === 'object'){
+                if (typeof partialObj[pathElement] === 'object' || typeof partialObj[pathElement] === 'function'){
+
                 }else{
                     return obj;
                 }
             }
             partialObj = partialObj[pathElement];
         }
-        if (!partialObj[pathArray[len-1]]){
-            partialObj[pathArray[len-1]] = value;
+        if (!partialObj[pathArray[len-1]] || partialObj[pathArray[len-1]]==null || partialObj[pathArray[len-1]]==false){
+            if (partialObj[pathArray[len-1]]==undefined){
+                partialObj[pathArray[len-1]] = value;
+            }
         }
     }
     traverse(path, value);
     return newObj;
 }
-
 module.exports = set

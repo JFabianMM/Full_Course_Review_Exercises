@@ -21,34 +21,21 @@ class SinglyLinkedList{
         return this
     }
     palindrome(){
-        let set = new Set();
-        let values=[];
-        let current = this.head;
-        let count=0;
-        while (current && count<20){
-            count++;
-            if(set.has(current)){
-                return false
-            }else{
-                values.push(current.value);
-                set.add(current)
+            let temp = this.head;
+            let stack = [];     
+            while(temp != null){
+               stack.push(temp.value);
+               temp = temp.next;
+            }    
+            temp = this.head;
+            while(temp != null){
+               if(temp.value != stack.pop()){
+                  return false;
+               }
+               temp = temp.next;
             }
-            if (current.next==null){
-                break
-            }
-            current=current.next;
-        } 
-        let it= Math.floor(count / 2);
-        for (let i=0; i<it;i++){
-            let val1=values[i];
-            let val2=values[count-1-i];
-            if (val1==val2){
-            }else{
-                return false;
-            }
-        }
-        return true
-    }
+            return true;
+         }
 }
 
 const palindromeCheck = function(singlyList){

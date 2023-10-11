@@ -1,8 +1,8 @@
-function Node(value, next = null) { return { value, next } }
+function Node(value, next = null) { return { value, next} }
 
 class SinglyLinkedList{
     constructor(){
-        this.head = null           // Here is saved the reference head
+        this.head = null    
     }
     push(val){
         let newNode = Node(val);
@@ -21,30 +21,26 @@ class SinglyLinkedList{
         return this
     }
     findLoop(){
-        let set = new Set();
-        let current = this.head;
-        let index=null;
         let loop=null;
-        while(current){
-            if(set.has(current)){
-                loop=true;
-                break
-            }else{
-                set.add(current)
+        let current=this.head;
+        let index=0;
+        while (current != null){
+            if (current.flag == 1){
+                loop= true;
+                break;
             }
-            current = current.next
+            current.flag = 1;
+            current = current.next;
         }
         if (loop){
-            let counter=0;
-            for (const value of set) {
-                if (current== value) {
-                  break;
-                }
-                counter ++;
-            }
-            index=counter;
-        }
-        return index;
+            let nod=this.head;
+            while (nod!=current){
+                  index++;
+                  nod=nod.next;
+            } 
+            return index;
+        }    
+        return null;
     }
     loop(index){
         let count=0;

@@ -17,3 +17,4 @@ test('Must determine if the contents is a singly linked list is palindrome. For 
   singlyList.push(0);
   expect(palindromeCheck(singlyList)).toBe(false);
 });
+

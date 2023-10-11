@@ -1,6 +1,5 @@
 const set = require('./exercise18');
 
-
 test('The function implement shorthand deep object assignment. To obj={arr: true} a shorthand deep object of "a.b.c" with value 42. The result must be {arr: true, path:{to:{deeply:{nested:{property:42}}}}}', () => {
   let obj={arr:true};
   expect(set(obj, 'path.to.deeply.nested.property', 42)).toEqual({
