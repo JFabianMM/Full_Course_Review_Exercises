@@ -1,46 +1,50 @@
 const isSameLevel = function(root,n1,n2){
-    let visited = [];
-    let current = root;
-    function traverse (node, n1, n2, level=0){
-        let flag=0;
-        if (n1==node.value){
-            visited.push({number:n1, level:level});
-            flag=1;
-        }
-        if (n2==node.value){
-            if (flag==0){
-              visited.push({number:n2, level:level});
+  let queue = [];
+  let queueLevels = [];
+  queue.push(root);
+  let level=0;
+  queueLevels.push(level);
+  let flag1=0;
+  let flag2=0;
+  let result=false;
+  while (queue.length != 0) {
+      let tempNode = queue.shift();
+      let tempLevels = queueLevels.shift();
+      if (level!=tempLevels){
+          flag1=0;
+          flag2=0;
+          level=tempLevels;
+      }
+      if (n1==n2){
+          if (tempNode.value==n1){
+             flag1++;
+          }
+          if (flag1>1){
+            result = true;
+            break;
+          }  
+      }else{
+        if (tempNode.value==n1){
+            flag1++;
+            if (flag2>0){
+              result = true;
+              break;
             }
         }
-        let len=node.children.length;
-        level=level+1;
-        for (let i=0; i<len; i++){
-            traverse(node.children[i], n1, n2, level);
-        }
-    };
-    traverse(current, n1, n2);
-    let len = visited.length;
-    for(let i=0; i<len; i++){
-        if(visited[i].number==n1){
-          for(let j=i+1; j<len; j++){
-            if (visited[j].number==n2){
-                if(visited[i].level==visited[j].level){
-                  return true
-                }                 
+        if (tempNode.value==n2){
+            flag2++;
+            if (flag1>0){
+              result = true;
+              break;
             }
-          }        
         }
-        if(visited[i].number==n2){
-          for(let j=i+1; j<len; j++){
-            if (visited[j].number==n1){
-                if(visited[i].level==visited[j].level){
-                  return true
-                }                 
-            }
-          }        
-        }              
-    }
-    return false; 
+      }
+      for (let i=0; i<tempNode.children.length; i++){
+          queueLevels.push(tempLevels+1);
+          queue.push(tempNode.children[i]);
+      }
+  }
+  return result
 }
 
 const Tree = function(value, children = []) {
@@ -58,4 +62,3 @@ module.exports = {
   isSameLevel: isSameLevel,
   Tree: Tree,
 };
-

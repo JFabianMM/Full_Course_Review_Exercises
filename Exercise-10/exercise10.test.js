@@ -65,3 +65,21 @@ test("The function must trwow an error given the invalid input (AA,(B,(D),(,E)),
     expect(e.message).toBe("Invalid Input");
   }  
 });
+
+test("The function must trwow an error given the invalid input (A,(B),(C),(D)) toBe ('Invalid Input')", () => {
+  const bTree = '(A,(B),(C),(D))'; 
+  try {
+    printTree(bTree,'postfix');
+  } catch (e) {
+    expect(e.message).toBe("Invalid Input");
+  }  
+});
+
+test("The function must trwow an error given the invalid input (A,,(C),) toBe ('Invalid Input')", () => {
+  const bTree = '(A,,(C),)'; 
+  try {
+    printTree(bTree,'postfix');
+  } catch (e) {
+    expect(e.message).toBe("Invalid Input");
+  }  
+});

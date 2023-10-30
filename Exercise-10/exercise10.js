@@ -25,7 +25,11 @@ function getObject(str){
   const withoutParentesis = str.match(regexp3);
   const regexp4 = /,[\A-Za-z0-9+]\)/gi;
   const incompleteParentesis = str.match(regexp4);
-  if (noParentesis || commastriple || repeatedParentesis || comasAfterParentesis || comasBeforeParentesis || doubleParentesis || withoutParentesis || incompleteParentesis || lackOfParentesis){
+  const regexp5 = /\)[,+]\)/gi;
+  const extraComa = str.match(regexp5);
+  const regexp6 = /\([\A-Za-z0-9+]\),\([\A-Za-z0-9+]\),\([\A-Za-z0-9+]\)/gi;
+  const notBinary = str.match(regexp6);
+  if (noParentesis || commastriple || repeatedParentesis || comasAfterParentesis || comasBeforeParentesis || doubleParentesis || withoutParentesis || incompleteParentesis || lackOfParentesis || extraComa || notBinary ){
      throw new Error('Invalid Input');
   }
 
@@ -128,4 +132,3 @@ function printTree(tree, order='infix') {
 }
 
 module.exports = printTree
-
