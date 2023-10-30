@@ -18,7 +18,7 @@ function querySelectorAll(input){
                     let childElements=document.querySelectorAll(coincidence2);
                     for(let i=0; i<childElements.length; i++){
                          if (childElements[i].parentNode.matches(coincidence1)){
-                              results.push(childElements[i].parentNode);
+                              if(!results.includes(childElements[i].parentNode))results.push(childElements[i].parentNode);
                          }    
                     }
                     return results;        
@@ -30,4 +30,5 @@ function querySelectorAll(input){
           return document.querySelectorAll(input);
      }
 }  
+
 module.exports = querySelectorAll
