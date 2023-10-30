@@ -1,45 +1,43 @@
-function Node(value, next = null) { return { value, next } }
+class Node {
+     constructor(val){
+         this.data = val;
+         this.next = null;
+     }
+}
 
 class SinglyLinkedList{
     constructor(){
         this.head = null
     }
-    push(val){
-        let newNode = Node(val);
-        if(!this.head){               
-            this.head = newNode;
-            return this
-        } 
-        let nod=this.head;
-        while (nod.next!=null){
-            if (nod.next==null){
-                break
-            }
-            nod=nod.next;
-        } 
-        nod.next=newNode;
-        return this
+    push(new_data){
+         let new_node = new Node(new_data);
+         new_node.next = this.head;
+         this.head = new_node;
     }
-    palindrome(){
-            let temp = this.head;
-            let stack = [];     
-            while(temp != null){
-               stack.push(temp.value);
-               temp = temp.next;
-            }    
-            temp = this.head;
-            while(temp != null){
-               if(temp.value != stack.pop()){
-                  return false;
-               }
-               temp = temp.next;
+    isPalindrome(){
+        let head=this.head;
+        let left;
+        function isPalindromeUtil(right) {
+            left = head;
+            if (right == null){
+                return true;
             }
-            return true;
-         }
-}
+            if (isPalindromeUtil(right.next) == false){
+                return false;
+            }
+            let isPal1=false; 
+            if(right.data == left.data){
+                isPal1=true
+            }
+            left = left.next;
+            return isPal1;
+        }
+        return isPalindromeUtil(head);
+    }
+} 
 
 const palindromeCheck = function(singlyList){
-    return singlyList.palindrome();
+    return singlyList.isPalindrome();
 }
 
 module.exports = {

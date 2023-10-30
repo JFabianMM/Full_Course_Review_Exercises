@@ -18,3 +18,15 @@ test('Must determine if the contents is a singly linked list is palindrome. For 
   expect(palindromeCheck(singlyList)).toBe(false);
 });
 
+test('Must determine if the contents is a singly linked list is palindrome. For Linked list singlyList the content is palindrome = false', () => {
+  let singlyList=new SinglyLinkedList();
+  singlyList.push(9);
+  singlyList.push(2);
+  singlyList.push(1);
+  singlyList.push(4);
+  singlyList.push(4);
+  singlyList.push(1);
+  singlyList.push(2);
+  singlyList.push(9);
+  expect(palindromeCheck(singlyList)).toBe(true);
+});

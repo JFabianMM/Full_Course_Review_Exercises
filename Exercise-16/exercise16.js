@@ -20,28 +20,27 @@ class SinglyLinkedList{
         nod.next=newNode;
         return this
     }
-    findLoop(){
-        let loop=null;
-        let current=this.head;
-        let index=0;
-        while (current != null){
-            if (current.flag == 1){
-                loop= true;
+    findLoop() {
+        let slowPointer = this.head, fastPointer = this.head;
+        while(slowPointer!=null && fastPointer!=null && fastPointer.next!=null){
+            slowPointer = slowPointer.next;
+            fastPointer = fastPointer.next.next;
+            if(slowPointer==fastPointer){
                 break;
             }
-            current.flag = 1;
-            current = current.next;
         }
-        if (loop){
-            let nod=this.head;
-            while (nod!=current){
-                  index++;
-                  nod=nod.next;
-            } 
-            return index;
-        }    
-        return null;
-    }
+        if(slowPointer!=fastPointer){
+            return null;
+        }
+        slowPointer = this.head;
+        let count=0;
+        while(slowPointer!=fastPointer){
+            count++;
+            slowPointer = slowPointer.next;
+            fastPointer = fastPointer.next;
+        }
+        return count;
+    }    
     loop(index){
         let count=0;
         let indexNode=null;

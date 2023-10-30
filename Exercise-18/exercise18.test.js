@@ -2,23 +2,29 @@ const set = require('./exercise18');
 
 test('The function implement shorthand deep object assignment. To obj={arr: true} a shorthand deep object of "a.b.c" with value 42. The result must be {arr: true, path:{to:{deeply:{nested:{property:42}}}}}', () => {
   let obj={arr:true};
-  expect(set(obj, 'path.to.deeply.nested.property', 42)).toEqual({
-    arr:true,
-    path:{
-      to:{
-        deeply:{
-          nested:{
-            property:42
-          }
-        }
-      }
-    }
-  });
+  expect(set(obj, 'path.to.deeply.nested.property', 42)).toEqual(
+    {arr: true, path:{to:{deeply:{nested:{property:42}}}}}
+    );
 });
 
 test('The function implement shorthand deep object assignment. To obj={a: 1} a shorthand deep object of "a.b.c" with value 2. The result must be {a: 1}', () => {
   let obj = {a: 1};
   expect(set(obj, 'a.b.c', 2)).toEqual({a: 1});
+});
+
+test('The function implement shorthand deep object assignment. To obj={a: 1} a shorthand deep object of "a.b.c" with value 2. The result must be {a: true}', () => {
+  let obj = {a: true};
+  expect(set(obj, 'a.b.c', 2)).toEqual({a: true});
+});
+
+test('The function implement shorthand deep object assignment. To obj={a: 1} a shorthand deep object of "a.b.c" with value 2. The result must be {a: false}', () => {
+  let obj = {a: false};
+  expect(set(obj, 'a.b.c', 2)).toEqual({a: false});
+});
+
+test('The function implement shorthand deep object assignment. To obj={a: 1} a shorthand deep object of "a.b.c" with value 2. The result must be {a: null}', () => {
+  let obj = {a: null};
+  expect(set(obj, 'a.b.c', 2)).toEqual({a: null});
 });
 
 test('The function implement shorthand deep object assignment. To obj={a: {x:3}} a shorthand deep object of "a.b.c" with value 2. The result must be {a: {x:3,b:{c:2}}}', () => {
